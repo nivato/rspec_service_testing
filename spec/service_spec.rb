@@ -1,12 +1,16 @@
 require 'service'
 
-RSpec.describe Service, "#score" do
-  context "with no strikes or spares" do
-    it "sums the pin count for each roll" do
+RSpec.describe Service, "#weather" do
+  context "with default units (metric)" do
+    it "gets the weather for specified city" do
       service = Service.new
-      20.times { service.hit(4) }
-      expect(service.score).to eq 80
+      response = service.weather('London')
+      expect(response['cod']).to eq 200
+      expect(response['name']).to eq 'London'
+      expect(response['sys']['country']).to eq 'GB'
+      expect(response['weather']).not_to be_nil
+      expect(response['wind']['speed']).not_to be_nil
+      expect(response['wind']['deg']).not_to be_nil
     end
   end
 end
-
